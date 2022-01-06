@@ -79,20 +79,37 @@ for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], rev
     print("{:<10} {:<10} {:<10} {:<10}".format(name, Code, category, Price))
 
 print("\nSearch Product with code:-\n---------------------------------")
-"""code=(input("Enter code: "))
-flag=0
-for i in products.dict.values():
-    if i.code==code:
-        flag=1
-        print(i.display())
-        break
-if flag==0:
-    print("Entered code does not exist!!")"""
-code = float(input("enter code to search product:"))
-temp = 0
-for i in products.dict.values():
-    if i[1] == code:
-        print(i,end=" ")
-        temp = 1
-if temp == 0:
-    print("product not found")
+def check_code():
+
+    while True:
+        print("\n1)for display list formate.--\n2)for display Dictionary formate.--\n0)To exit from this loop.-- ")
+        a= int(input())
+        if a== 1:
+            print("\nEnter Product code:-\n---------------------------------\n")
+            code = float(input("enter code to search product:- "))
+            temp = 0
+            for i in products.list_p:
+                if i.code == code:
+                    temp=1
+                    i.display()
+                    break
+            if temp == 0:
+                print("wrong number!")
+        if a == 2:
+            print("\nEnter Product with code:-\n---------------------------------\n")
+            code = float(input("enter product code:- "))
+            temp = 0
+            print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
+                                                       "Price\n-------------------------------------------------------"))
+            for key, value in products.dict.items():
+                name, Code, category, Price = value
+                if value[1] == code:
+                    print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+                    temp = 1
+            if temp == 0:
+                print("product not found")
+        if a==0:
+            break
+
+check_code()
+
