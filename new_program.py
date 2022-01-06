@@ -64,13 +64,13 @@ class products():
         print("Price: ", self.price)
 
 
- # parent objects
+
 vehicle = category("Vehicle")
 gadget = category("Gadgets")
 cloths = category("Cloths")
 game = category("Game")
 pen = category("Pen")
-# child objects
+
 c1 = category("Women", cloths)
 c2 = category("men", cloths)
 v1 = category("Cars", vehicle)
@@ -80,7 +80,7 @@ g2 = category("PC",gadget)
 g3 = category("Mobile",gadget)
 gg1 = category("Xbox", game)
 gg2 = category("PlayStation",game)
-# child of child
+
 x1 = category("maruti", v1)
 x2 = category("T_shirt", c2)
 
@@ -188,13 +188,3 @@ def check_code():
             break
 
 check_code()
-
-
-
-
-
-
-
-
-
-
