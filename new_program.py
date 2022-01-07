@@ -2,6 +2,7 @@ import pandas as pd
 from tabulate import tabulate
 from treelib import Node, Tree
 
+
 class category:
     code_c = 2890
     cate_list = []
@@ -37,7 +38,7 @@ class category:
                 print(i.name)
 
 
-class products():
+class products:
     code_p = 7805
     list_p = []
     dict = {}
@@ -64,137 +65,144 @@ class products():
         print("Price: ", self.price)
 
 
+if __name__ == "__main__":
 
-vehicle = category("Vehicle")
-gadget = category("Gadgets")
-cloths = category("Cloths")
-game = category("Game")
-pen = category("Pen")
+    vehicle = category("Vehicle")
+    gadget = category("Gadgets")
+    cloths = category("Cloths")
+    game = category("Game")
+    pen = category("Pen")
 
-Women = category("Women", cloths)
-men = category("men", cloths)
-Cars = category("Cars", vehicle)
-Scooters = category("Scooters", vehicle)
-Laptop = category("Laptop", gadget)
-PC = category("PC",gadget)
-Mobile = category("Mobile",gadget)
-Xbox = category("Xbox", game)
-PlayStation = category("PlayStation",game)
+    Women = category("Women", cloths)
+    men = category("men", cloths)
+    Cars = category("Cars", vehicle)
+    Scooters = category("Scooters", vehicle)
+    Laptop = category("Laptop", gadget)
+    PC = category("PC", gadget)
+    Mobile = category("Mobile", gadget)
+    Xbox = category("Xbox", game)
+    PlayStation = category("PlayStation", game)
 
-maruti = category("maruti",Cars)
-T_shirt = category("T_shirt", men)
+    maruti = category("maruti", Cars)
+    T_shirt = category("T_shirt", men)
 
-object_of_category = [vehicle,gadget,cloths,game,pen,Women,men,Cars,Scooters,
-                      Laptop,PC,Mobile,Xbox,PlayStation,maruti,T_shirt]
-
-
-p1 = [
-    products("lenovo", Laptop, 50000),
-    products("dell", Laptop, 30560),
-    products("hp", PC, 70000),
-    products("controller", Xbox, 5000),
-    products("razen", pen, 330),
-    products("z_ball_pen", pen, 100),
-    products("honda", Scooters, 40000),
-    products("mi", Mobile, 10000),
-    products("vivo", Mobile, 45000),
-    products("apple", Mobile, 100000),
-    products("R15", Scooters, 70000),
-    products("Access", Scooters, 40000),
-    products("shift",Cars, 150000),
-    products("City_honda",Cars, 80000),
-    products("nick", men, 20000),
-    products("reebok", men, 80000),
-    products("ps_controller",PlayStation, 7000),
-    products("VR",PlayStation, 20000)
-]
-def line():
-    print("-----------------------------------------")
-
-print("List of Categories")
-line()
-for i in object_of_category:
-    i.display()
-print("\n\n")
+    object_of_category = [vehicle, gadget, cloths, game, pen, Women, men, Cars, Scooters,
+                          Laptop, PC, Mobile, Xbox, PlayStation, maruti, T_shirt]
 
 
-print("\nProduct Details:- \n")
-print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category","Price"))
-line()
-for key, value in products.dict.items():
-    name, Code, category, Price = value
-    print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+
+    p1 = [
+        products("lenovo", Laptop, 50000),
+        products("dell", Laptop, 30560),
+        products("hp", PC, 70000),
+        products("controller", Xbox, 5000),
+        products("razen", pen, 330),
+        products("z_ball_pen", pen, 100),
+        products("honda", Scooters, 40000),
+        products("mi", Mobile, 10000),
+        products("vivo", Mobile, 45000),
+        products("apple", Mobile, 100000),
+        products("R15", Scooters, 70000),
+        products("Access", Scooters, 40000),
+        products("shift", Cars, 150000),
+        products("City_honda", Cars, 80000),
+        products("nick", Women, 20000),
+        products("reebok", men, 80000),
+        products("controller", PlayStation, 7000),
+        products("VR", PlayStation, 20000)
+    ]
 
 
-print("\nProducts details ORDERBY AND GROUPBY")
-line()
-tree=Tree()
-tree.create_node("Product Catalogue", 0)
-
-for i in object_of_category:
-    tree.create_node(i.name, i.name, parent=0)
-    if i.parent is not None:
-        tree.move_node(i.name, i.parent.name)
-    for c in i.products:
-        tree.create_node(c.name, c.name, parent=i.name)
-
-tree.show()
+    def line(n):
+        if n == 1:
+            print("-----------------------------------------")
+        else:
+            print("-------------------------------------------------------")
 
 
-print("\nsorted Product Details ""'High to low'""\n")
-print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                           "Price"))
-line()
+    print("\nList of Categories")
+    line(1)
+    for i in object_of_category:
+        i.display()
+    print("\n\n")
 
-for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], reverse=True):
-    name, Code, category, Price = value
-    print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+    print("\nProduct Details:- \n")
+    print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category", "Price"))
+    line(2)
+    for key, value in products.dict.items():
+        name, Code, category, Price = value
+        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
 
-print("\nsorted Product Details ""'low to high'""\n")
-print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                           "Price"))
-line()
+    print("\nProducts details ORDERBY AND GROUPBY")
+    line(1)
+    tree = Tree()
+    tree.create_node("Product Details", 0)
 
-for key, value in sorted(products.dict.items(), key=lambda item: item[1][3]):
-    name, Code, category, Price = value
-    print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+    for i in object_of_category:
+        tree.create_node(i.name, i.name, parent=0)
+        if i.parent is not None:
+            tree.move_node(i.name, i.parent.name)
+        for c in i.products:
+            tree.create_node(c.name, c.name, parent=i.name)
 
-print("\nSearch Product Details with it code")
-line()
+    tree.show()
 
-def check_code():
+    print("\nsorted Product Details ""'High to low'""\n")
+    print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
+                                               "Price"))
+    line(2)
 
-    while True:
-        print("\n1)for display list formate.--\n2)for display Dictionary formate.--\n0)To exit from this loop.-- ")
-        a= int(input())
-        if a== 1:
-            print("\nEnter Product code:-\n")
-            line()
-            code = float(input("enter code to search product:- "))
-            temp = 0
-            for i in products.list_p:
-                if i.code == code:
-                    temp=1
-                    i.display()
-                    break
-            if temp == 0:
-                print("wrong number!")
-        if a == 2:
-            print("\nEnter Product with code:-\n")
-            line()
-            code = float(input("enter product code:- "))
-            temp = 0
-            print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                                       "Price"))
-            line()
-            for key, value in products.dict.items():
-                name, Code, category, Price = value
-                if value[1] == code:
-                    print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
-                    temp = 1
-            if temp == 0:
-                print("product not found")
-        if a==0:
-            break
+    for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], reverse=True):
+        name, Code, category, Price = value
+        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
 
-check_code()
+    print("\nsorted Product Details ""'low to high'""\n")
+    print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
+                                               "Price"))
+    line(2)
+
+    for key, value in sorted(products.dict.items(), key=lambda item: item[1][3]):
+        name, Code, category, Price = value
+        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+
+    print("\nSearch Product Details with it code")
+    line(1)
+
+
+    def check_code():
+
+        while True:
+            print("\n1)for display list formate.--\n2)for display Dictionary formate.--\n0)To exit from this loop.-- ")
+            a = int(input())
+            if a == 1:
+                print("\nEnter Product code:-\n")
+                line(1)
+                code = float(input("enter code to search product:- "))
+                temp = 0
+                for i in products.list_p:
+                    if i.code == code:
+                        temp = 1
+                        i.display()
+                        break
+                if temp == 0:
+                    print("wrong number!")
+            if a == 2:
+                print("\nEnter Product with code:-\n")
+                line(1)
+                code = float(input("enter product code:- "))
+                temp = 0
+                print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
+                                                           "Price"))
+                line(2)
+                for key, value in products.dict.items():
+                    name, Code, category, Price = value
+                    if value[1] == code:
+                        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+                        temp = 1
+                if temp == 0:
+                    print("product not found")
+            if a == 0:
+                break
+
+
+    check_code()
