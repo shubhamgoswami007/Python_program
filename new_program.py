@@ -71,59 +71,63 @@ cloths = category("Cloths")
 game = category("Game")
 pen = category("Pen")
 
-c1 = category("Women", cloths)
-c2 = category("men", cloths)
-v1 = category("Cars", vehicle)
-v2 = category("Scooters", vehicle)
-g1 = category("Laptop", gadget)
-g2 = category("PC",gadget)
-g3 = category("Mobile",gadget)
-gg1 = category("Xbox", game)
-gg2 = category("PlayStation",game)
+Women = category("Women", cloths)
+men = category("men", cloths)
+Cars = category("Cars", vehicle)
+Scooters = category("Scooters", vehicle)
+Laptop = category("Laptop", gadget)
+PC = category("PC",gadget)
+Mobile = category("Mobile",gadget)
+Xbox = category("Xbox", game)
+PlayStation = category("PlayStation",game)
 
-x1 = category("maruti", v1)
-x2 = category("T_shirt", c2)
+maruti = category("maruti",Cars)
+T_shirt = category("T_shirt", men)
 
-object_of_category = [vehicle,gadget,cloths,game,pen,c1,c2,v1,v2,g1,g2,g3,gg1,gg2,x1,x2]
+object_of_category = [vehicle,gadget,cloths,game,pen,Women,men,Cars,Scooters,
+                      Laptop,PC,Mobile,Xbox,PlayStation,maruti,T_shirt]
 
 
 p1 = [
-    products("lenovo", g1, 50000),
-    products("dell", g1, 30560),
-    products("hp", g2, 70000),
-    products("controller", gg1, 5000),
+    products("lenovo", Laptop, 50000),
+    products("dell", Laptop, 30560),
+    products("hp", PC, 70000),
+    products("controller", Xbox, 5000),
     products("razen", pen, 330),
     products("z_ball_pen", pen, 100),
-    products("honda", v2, 40000),
-    products("mi", g3, 10000),
-    products("vivo", g3, 45000),
-    products("apple", g3, 100000),
-    products("R15", v2, 70000),
-    products("Access", v2, 40000),
-    products("shift", v1, 150000),
-    products("City_honda", v1, 80000),
-    products("nick", c1, 20000),
-    products("reebok", c2, 80000),
-    products("ps_controller",gg2, 7000),
-    products("VR",gg2, 20000)
+    products("honda", Scooters, 40000),
+    products("mi", Mobile, 10000),
+    products("vivo", Mobile, 45000),
+    products("apple", Mobile, 100000),
+    products("R15", Scooters, 70000),
+    products("Access", Scooters, 40000),
+    products("shift",Cars, 150000),
+    products("City_honda",Cars, 80000),
+    products("nick", men, 20000),
+    products("reebok", men, 80000),
+    products("ps_controller",PlayStation, 7000),
+    products("VR",PlayStation, 20000)
 ]
+def line():
+    print("-----------------------------------------")
 
 print("List of Categories")
-print("-----------------------------------------")
+line()
 for i in object_of_category:
     i.display()
 print("\n\n")
 
 
 print("\nProduct Details:- \n")
-print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                           "Price\n-------------------------------------------------------"))
+print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category","Price"))
+line()
 for key, value in products.dict.items():
     name, Code, category, Price = value
     print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
 
 
-print("\nProducts details ORDERBY AND GROUPBY\n--------------------------------------------")
+print("\nProducts details ORDERBY AND GROUPBY")
+line()
 tree=Tree()
 tree.create_node("Product Catalogue", 0)
 
@@ -139,7 +143,8 @@ tree.show()
 
 print("\nsorted Product Details ""'High to low'""\n")
 print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                           "Price\n-------------------------------------------------------"))
+                                           "Price"))
+line()
 
 for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], reverse=True):
     name, Code, category, Price = value
@@ -147,13 +152,15 @@ for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], rev
 
 print("\nsorted Product Details ""'low to high'""\n")
 print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                           "Price\n-------------------------------------------------------"))
+                                           "Price"))
+line()
 
 for key, value in sorted(products.dict.items(), key=lambda item: item[1][3]):
     name, Code, category, Price = value
     print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
 
-print("Search Product Details with it code")
+print("\nSearch Product Details with it code")
+line()
 
 def check_code():
 
@@ -161,7 +168,8 @@ def check_code():
         print("\n1)for display list formate.--\n2)for display Dictionary formate.--\n0)To exit from this loop.-- ")
         a= int(input())
         if a== 1:
-            print("\nEnter Product code:-\n---------------------------------\n")
+            print("\nEnter Product code:-\n")
+            line()
             code = float(input("enter code to search product:- "))
             temp = 0
             for i in products.list_p:
@@ -172,11 +180,13 @@ def check_code():
             if temp == 0:
                 print("wrong number!")
         if a == 2:
-            print("\nEnter Product with code:-\n---------------------------------\n")
+            print("\nEnter Product with code:-\n")
+            line()
             code = float(input("enter product code:- "))
             temp = 0
             print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                                       "Price\n-------------------------------------------------------"))
+                                                       "Price"))
+            line()
             for key, value in products.dict.items():
                 name, Code, category, Price = value
                 if value[1] == code:
