@@ -108,7 +108,7 @@ if __name__ == "__main__":
         products("City_honda", Cars, 80000),
         products("nick", Women, 20000),
         products("reebok", men, 80000),
-        products("controller", PlayStation, 7000),
+        products("pc_controller", PlayStation, 7000),
         products("VR", PlayStation, 20000)
     ]
 

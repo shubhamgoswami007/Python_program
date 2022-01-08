@@ -1,7 +1,7 @@
 import pandas as pd
 from tabulate import tabulate
 from treelib import Node, Tree
-
+import pickle
 
 class category:
     code_c = 2890
@@ -44,31 +44,30 @@ class products():
     dict = {}
     item = 0
     cate = " "
-    stock_at_locations={}
 
-    def __init__(self, name, category, price,location,stock):
+    def __init__(self, name, category, price,stock_at_locations={}):
         self.name = name
         self.code = products.code_p + 15
         self.price = float(price)
         self.category = category
-        self.location = location
-        self.stock = float(stock)
+        self.location = stock_at_locations
         products.code_p += 5
         category.no_of_products += 1
         products.list_p.append(self)
         products.item += 1
         category.products.append(self)
         products.cate = category.getName()
+
         products.dict.update({products.item: [self.name, self.code, products.cate,
-                                              self.price,location.name,self.stock]})
-        products.stock_at_locations.update({location.name : [self.stock]})
+                                              self.price]})
+
+
 
     def display(self):
         print("\nProduct: ", self.name)
         print("Code: ", self.code)
         print("Category: ", self.category.name)
         print("Price: ", self.price)
-        print("Stock: ",self.stock)
 
     def getName(self):
         return self.name
@@ -95,9 +94,35 @@ class Movement:
         self.to_location = to_location
         self.product = products
         self.quantiy = quantiy
+        self.Display_movement=''
+        try:
+            if self.product.stock_at_location[self.from_location] >= self.quantity:
+                qun = self.product.stock_at_location[self.from_location] - self.quantity
+                self.product.stock_at_location.update({self.from_location: qun})
+                if self.to_location in self.product.stock_at_location:
+                    qun1 = self.product.stock_at_location[self.to_location] + self.quantity
+                    self.product.stock_at_location.update({self.to_location: qun1})
+                else:
+                    self.product.stock_at_location.update({self.to_location: self.quantity})
+                self.display = f'product quantity :{self.quantity} from {self.from_location.name} to {self.to_location.name}'
 
-    def movements_by_product(products):
-        print()
+            else:
+                print(f"quantity no: {self.quantity} of {self.product.name} not available {self.from_location.name}")
+        except Exception:
+            print("no location for that product\n")
+
+    @staticmethod
+    def movements_by_product(product):
+        flag = 0
+        for item in List_of_movement:
+            if item.product.name == product.name:
+                flag = 1
+                print(item.display)
+
+        if flag == 0:
+            print("No movements yet.....")
+
+
 
 
 def line(n):
@@ -107,63 +132,7 @@ def line(n):
         print("-------------------------------------------------------")
 
 if __name__ == "__main__":
-    def print_value(cat, Loc,prod):
-        print("List of Categories: ")
-        line(1)
-        for i in cat:
-            i.display()
-        print("\n\n")
 
-        print("\nProduct Details:- \n")
-        print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format("name", "Code", "category", "Price","Location","stock"))
-        line(2)
-        for i in products.stock_at_locations.keys():
-            print(i)
-        for i in products.stock_at_locations.values():
-            print(i)
-        print("\nList of Location: ")
-        line(1)
-        print("\n")
-        for i in Loc:
-            i.display()
-        print("\n")
-
-        print("\nProducts details ORDERBY AND GROUPBY")
-        line(1)
-        tree = Tree()
-        tree.create_node("Product Catalogue", 0)
-
-        for i in cat:
-            tree.create_node(i.name, i.name, parent=0)
-            if i.parent is not None:
-                tree.move_node(i.name, i.parent.name)
-            for c in i.products:
-                tree.create_node(c.name, c.name, parent=i.name)
-
-        tree.show()
-
-        print("\nsorted Product Details ""'High to low'""\n")
-        print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format("name", "Code", "category", "Price","Location","stock"))
-        line(2)
-
-        for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], reverse=True):
-            name, Code, category, Price,location,stock = value
-            print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15} ".format(name, Code, category, Price,location,stock))
-
-
-        print("\nsorted Product Details ""'low to high'""\n")
-        print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format("name", "Code", "category", "Price","Location","stock"))
-        line(2)
-
-        for key, value in sorted(products.dict.items(), key=lambda item: item[1][3]):
-            name, Code, category, Price,location,stock = value
-            print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format(name, Code, category, Price,location,stock))
-
-        print("\nSearch Product Details with it code")
-        line(1)
-
-
-    def call_obj():
         vehicle = category("Vehicle")
         gadget = category("Gadgets")
         cloths = category("Cloths")
@@ -186,73 +155,70 @@ if __name__ == "__main__":
         object_of_category = [vehicle, gadget, cloths, game, pen, Women, men, Cars, Scooters,
                               Laptop, PC, Mobile, Xbox, PlayStation, maruti, T_shirt]
 
-        Location1 = Location("Gadgets_Location")
-        Location2 = Location("Vehicle_Location")
-        Location3 = Location("Cloths_Location")
-        Location4 = Location("Game_Location")
-        Location5 = Location("pen_Location")
+        rajkot = Location("RAJKOT")
+        jamnagar = Location("jamnagar")
+        ahmedabad = Location("ahmedabad")
+        mumbai = Location("mumbai")
 
-        Location_object = [Location1,Location2,Location3,Location4,Location5]
+        Location_object = [rajkot, jamnagar, ahmedabad, mumbai]
 
 
         p1 = [
-            products("lenovo", Laptop, 50000,Location1,200),
-            products("dell", Laptop, 30560,Location1,400),
-            products("hp", PC, 70000,Location1,200),
-            products("controller", Xbox, 5000,Location4,200),
-            products("razen", pen, 330,Location5,200),
-            products("z_ball_pen", pen, 100,Location5,200),
-            products("honda", Scooters, 40000,Location2,200),
-            products("mi", Mobile, 10000,Location1,200),
-            products("vivo", Mobile, 45000,Location1,200),
-            products("apple", Mobile, 100000,Location1,200),
-            products("R15", Scooters, 70000,Location2,200),
-            products("shift", Cars, 150000,Location2,200),
-            products("City_honda", Cars, 80000,Location2,200),
-            products("nick", Women, 20000,Location3,200),
-            products("reebok", men, 80000,Location3,200),
-            products("ps_controller", PlayStation, 7000,Location4,200),
-            products("VR", PlayStation, 20000,Location4,200)
+            products("lenovo", Laptop, 50000,{rajkot: 30, jamnagar: 40, mumbai: 100}),
+            products("dell", Laptop, 30560,{rajkot: 100, jamnagar: 40, mumbai: 10}),
+            products("hp", PC, 70000,{rajkot: 30, ahmedabad: 100, mumbai: 10}),
+            products("controller", Xbox, 5000,{ahmedabad: 30, jamnagar: 40, mumbai: 20}),
+            products("razen", pen, 330,{rajkot: 100, mumbai: 40, ahmedabad: 10}),
+            products("z_ball_pen", pen, 100,{rajkot: 30, jamnagar: 40, mumbai: 20}),
+            products("honda", Scooters, 40000,{rajkot: 30, jamnagar: 100, mumbai: 20}),
+            products("mi", Mobile, 10000,{rajkot: 30, ahmedabad: 40, mumbai: 20}),
+            products("vivo", Mobile, 45000,{rajkot: 100, ahmedabad: 40, jamnagar: 10}),
+            products("apple", Mobile, 100000,{mumbai: 30, ahmedabad: 40, jamnagar: 20}),
+            products("R15", Scooters, 70000,{rajkot: 30, mumbai: 100, ahmedabad: 20}),
+            products("shift", Cars, 150000,{mumbai: 30, jamnagar: 50, ahmedabad: 10}),
+            products("City_honda", Cars, 80000,{rajkot: 30, jamnagar: 50, mumbai: 20}),
+            products("nick", Women, 20000,{ahmedabad: 30, jamnagar: 40, rajkot: 10}),
+            products("reebok", men, 80000,{ahmedabad: 50, jamnagar: 40, mumbai: 100}),
+            products("ps_controller", PlayStation, 7000,{rajkot: 50, jamnagar: 90, mumbai: 10}),
+            products("VR", PlayStation, 20000,{ahmedabad: 100, rajkot: 40, mumbai: 10})
         ]
 
-        print_value(object_of_category,Location_object,p1)
+        List_of_movement= [
+            Movement(jamnagar, ahmedabad, p1[0], 50),
+            Movement(rajkot, ahmedabad, p1[1], 30),
+            Movement(jamnagar, mumbai, p1[2], 40),
+            Movement(rajkot, mumbai, p1[3], 10),
+            Movement(mumbai, rajkot, p1[4], 20),
+            Movement(jamnagar, ahmedabad, p1[5], 60),
+            Movement(rajkot, ahmedabad, p1[6], 20),
+            Movement(mumbai, rajkot, p1[7], 30),
+            Movement(mumbai, ahmedabad, p1[8], 10),
+            Movement(jamnagar, rajkot, p1[9], 20),
+            Movement(jamnagar, mumbai, p1[10], 30),
+            Movement(rajkot, ahmedabad, p1[11], 40),
+            Movement(jamnagar, rajkot, p1[12], 50),
+            Movement(mumbai, ahmedabad, p1[13], 60),
+            Movement(rajkot, mumbai, p1[14], 70),
+            Movement(jamnagar, mumbai, p1[15], 80),
+            Movement(ahmedabad, mumbai, p1[16], 90),
+        ]
 
-
-    call_obj()
-
-
-    def check_code():
-        while True:
-            print("\n1)for display list formate.--\n2)for display Dictionary formate.--"
-                  "\n0)To exit from this loop.-- ")
-            a = int(input())
-            if a == 1:
-                print("\nEnter Product code:-\n")
-                line(1)
-                code = float(input("enter code to search product:- "))
-                temp = 0
-                for i in products.list_p:
-                    if i.code == code:
-                        temp = 1
-                        i.display()
-                        break
-                if temp == 0:
-                    print("wrong number!")
-            if a == 2:
-                print("\nEnter Product with code:-\n")
-                line(1)
-                code = float(input("enter product code:- "))
-                temp = 0
-                print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format("name", "Code", "category", "Price","Location","stock"))
-                line(2)
-                for key, value in products.dict.items():
-                    name, Code, category, Price,location,stock = value
-                    if value[1] == code:
-                        print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format(name, Code, category, Price,location,stock))
-                        temp = 1
-                if temp == 0:
-                    print("product not found")
-            if a == 0:
-                break
-
-    check_code()
+        print("List of Categories: ")
+        line(1)
+        for i in object_of_category:
+            i.display()
+        print("\n\n")
+        #------------------------------------------------------
+        print("\nProduct Details:- \n")
+        print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format("name", "Code", "category", "Price", "Location",
+                                                                 "stock"))
+        line(2)
+        for key, value in products.dict.items():
+            name, Code, category, Price, location, stock = value
+            print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15} ".format(name, Code, category, Price, location, stock))
+        #---------------------------------------------------
+        print("\nList of Location: ")
+        line(1)
+        print("\n")
+        for i in Location_object:
+            i.display()
