@@ -1,8 +1,3 @@
-import pandas as pd
-from tabulate import tabulate
-from treelib import Node, Tree
-import pickle
-
 class category:
     code_c = 2890
     cate_list = []
@@ -50,7 +45,7 @@ class products():
         self.code = products.code_p + 15
         self.price = float(price)
         self.category = category
-        self.location = stock_at_locations
+        self.stock_at_locations = stock_at_locations
         products.code_p += 5
         category.no_of_products += 1
         products.list_p.append(self)
@@ -58,8 +53,13 @@ class products():
         category.products.append(self)
         products.cate = category.getName()
 
+        def Merge(dict1, dict2):
+            res = {**dict1, **dict2}
+            return res
+
         products.dict.update({products.item: [self.name, self.code, products.cate,
                                               self.price]})
+
 
 
 
@@ -69,8 +69,6 @@ class products():
         print("Category: ", self.category.name)
         print("Price: ", self.price)
 
-    def getName(self):
-        return self.name
 
 
 class Location:
@@ -86,30 +84,40 @@ class Location:
         print("code for location:- ",self.code)
         print("\t--------------------\n")
 
+    def getName(self):
+        return self.name
 
 class Movement:
 
-    def __init__(self, from_location, to_location, quantiy):
+    def __init__(self, from_location, to_location, product, quantity):
         self.from_location = from_location
         self.to_location = to_location
-        self.product = products
-        self.quantiy = quantiy
-        self.Display_movement=''
+        self.product = product
+        self.quantity = quantity
+        self.display = ''
         try:
-            if self.product.stock_at_location[self.from_location] >= self.quantity:
-                qun = self.product.stock_at_location[self.from_location] - self.quantity
-                self.product.stock_at_location.update({self.from_location: qun})
-                if self.to_location in self.product.stock_at_location:
-                    qun1 = self.product.stock_at_location[self.to_location] + self.quantity
-                    self.product.stock_at_location.update({self.to_location: qun1})
+            if self.product.stock_at_locations[self.from_location] >= self.quantity:
+
+                qun = self.product.stock_at_locations[self.from_location] - self.quantity
+                self.product.stock_at_locations.update({self.from_location: qun})
+
+                if self.to_location in self.product.stock_at_locations:
+
+                    qun1 = self.product.stock_at_locations[self.to_location] + self.quantity
+                    self.product.stock_at_locations.update({self.to_location: qun1})
+
                 else:
-                    self.product.stock_at_location.update({self.to_location: self.quantity})
+                    self.product.stock_at_locations.update({self.to_location: self.quantity})
+
                 self.display = f'product quantity :{self.quantity} from {self.from_location.name} to {self.to_location.name}'
 
             else:
-                print(f"quantity no: {self.quantity} of {self.product.name} not available {self.from_location.name}")
+                self.display = f"quantity no: {self.quantity} of {self.product.name} not available {self.from_location.name}"
+
+
         except Exception:
-            print("no location for that product\n")
+            self.display = "no location for that product\n"
+
 
     @staticmethod
     def movements_by_product(product):
@@ -166,42 +174,42 @@ if __name__ == "__main__":
         p1 = [
             products("lenovo", Laptop, 50000,{rajkot: 30, jamnagar: 40, mumbai: 100}),
             products("dell", Laptop, 30560,{rajkot: 100, jamnagar: 40, mumbai: 10}),
-            products("hp", PC, 70000,{rajkot: 30, ahmedabad: 100, mumbai: 10}),
-            products("controller", Xbox, 5000,{ahmedabad: 30, jamnagar: 40, mumbai: 20}),
-            products("razen", pen, 330,{rajkot: 100, mumbai: 40, ahmedabad: 10}),
-            products("z_ball_pen", pen, 100,{rajkot: 30, jamnagar: 40, mumbai: 20}),
-            products("honda", Scooters, 40000,{rajkot: 30, jamnagar: 100, mumbai: 20}),
-            products("mi", Mobile, 10000,{rajkot: 30, ahmedabad: 40, mumbai: 20}),
-            products("vivo", Mobile, 45000,{rajkot: 100, ahmedabad: 40, jamnagar: 10}),
-            products("apple", Mobile, 100000,{mumbai: 30, ahmedabad: 40, jamnagar: 20}),
-            products("R15", Scooters, 70000,{rajkot: 30, mumbai: 100, ahmedabad: 20}),
-            products("shift", Cars, 150000,{mumbai: 30, jamnagar: 50, ahmedabad: 10}),
-            products("City_honda", Cars, 80000,{rajkot: 30, jamnagar: 50, mumbai: 20}),
-            products("nick", Women, 20000,{ahmedabad: 30, jamnagar: 40, rajkot: 10}),
-            products("reebok", men, 80000,{ahmedabad: 50, jamnagar: 40, mumbai: 100}),
+            products("hp", PC, 70000, {rajkot: 30, ahmedabad: 100, mumbai: 10}),
+            products("controller", Xbox, 5000, {ahmedabad: 30, jamnagar: 40, mumbai: 20}),
+            products("razen", pen, 330, {rajkot: 100, mumbai: 40, ahmedabad: 10}),
+            products("z_ball_pen", pen, 100, {rajkot: 30, jamnagar: 40, mumbai: 20}),
+            products("honda", Scooters, 40000, {rajkot: 30, jamnagar: 100, mumbai: 20}),
+            products("mi", Mobile, 10000, {rajkot: 30, ahmedabad: 40, mumbai: 20}),
+            products("vivo", Mobile, 45000, {rajkot: 100, ahmedabad: 40, jamnagar: 10}),
+            products("apple", Mobile, 100000, {mumbai: 30, ahmedabad: 40, jamnagar: 20}),
+            products("R15", Scooters, 70000, {rajkot: 30, mumbai: 100, ahmedabad: 20}),
+            products("shift", Cars, 150000, {mumbai: 30, jamnagar: 50, ahmedabad: 10}),
+            products("City_honda", Cars, 80000, {rajkot: 30, jamnagar: 50, mumbai: 20}),
+            products("nick", Women, 20000, {ahmedabad: 30, jamnagar: 40, rajkot: 10}),
+            products("reebok", men, 80000, {ahmedabad: 50, jamnagar: 40, mumbai: 100}),
             products("ps_controller", PlayStation, 7000,{rajkot: 50, jamnagar: 90, mumbai: 10}),
             products("VR", PlayStation, 20000,{ahmedabad: 100, rajkot: 40, mumbai: 10})
         ]
-
-        List_of_movement= [
+        List_of_movement = [
             Movement(jamnagar, ahmedabad, p1[0], 50),
             Movement(rajkot, ahmedabad, p1[1], 30),
-            Movement(jamnagar, mumbai, p1[2], 40),
-            Movement(rajkot, mumbai, p1[3], 10),
-            Movement(mumbai, rajkot, p1[4], 20),
-            Movement(jamnagar, ahmedabad, p1[5], 60),
-            Movement(rajkot, ahmedabad, p1[6], 20),
-            Movement(mumbai, rajkot, p1[7], 30),
-            Movement(mumbai, ahmedabad, p1[8], 10),
-            Movement(jamnagar, rajkot, p1[9], 20),
-            Movement(jamnagar, mumbai, p1[10], 30),
-            Movement(rajkot, ahmedabad, p1[11], 40),
-            Movement(jamnagar, rajkot, p1[12], 50),
-            Movement(mumbai, ahmedabad, p1[13], 60),
-            Movement(rajkot, mumbai, p1[14], 70),
-            Movement(jamnagar, mumbai, p1[15], 80),
-            Movement(ahmedabad, mumbai, p1[16], 90),
+            Movement(ahmedabad, rajkot, p1[2], 20),
+            Movement(ahmedabad, rajkot, p1[3], 40),
+            Movement(rajkot, ahmedabad, p1[4], 20),
+            Movement(jamnagar, rajkot, p1[5], 20),
+            Movement(jamnagar, ahmedabad, p1[6], 30),
+            Movement(ahmedabad, rajkot, p1[7], 20),
+            Movement(rajkot, jamnagar, p1[8], 20),
+            Movement(ahmedabad, rajkot, p1[9], 20),
+            Movement(mumbai, rajkot, p1[10], 20),
+            Movement(jamnagar, rajkot, p1[11], 20),
+            Movement(jamnagar, rajkot, p1[12], 20),
+            Movement(ahmedabad, mumbai, p1[13], 20),
+            Movement(mumbai, rajkot, p1[14], 20),
+            Movement(ahmedabad, rajkot, p1[15], 20),
+            Movement(ahmedabad, jamnagar, p1[16], 50)
         ]
+
 
         print("List of Categories: ")
         line(1)
@@ -210,15 +218,51 @@ if __name__ == "__main__":
         print("\n\n")
         #------------------------------------------------------
         print("\nProduct Details:- \n")
-        print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15}".format("name", "Code", "category", "Price", "Location",
-                                                                 "stock"))
+        print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category", "Price"))
         line(2)
         for key, value in products.dict.items():
-            name, Code, category, Price, location, stock = value
-            print("{:<15} {:<15} {:<15} {:<15} {:<19} {:<15} ".format(name, Code, category, Price, location, stock))
+            name, Code, category, Price = value
+            print("{:<15} {:<15} {:<15} {:<15} ".format(name, Code, category, Price))
         #---------------------------------------------------
         print("\nList of Location: ")
         line(1)
         print("\n")
         for i in Location_object:
             i.display()
+        # ---------------------------------------------------
+
+        print("Display Movements between product object ")
+        line(1)
+        for i in p1:
+            print(i.name)
+            Movement.movements_by_product(i)
+            print("\n-----")
+        #------------------------------------------------------
+        print("\nnew stock at location")
+        line(1)
+        for i in p1:
+            i.display()
+            print('Location: ', end='')
+            for key in i.stock_at_locations:
+                print(f'{key.name} - {i.stock_at_locations[key]}', end='  ,')
+            print('\n')
+        print()
+
+        # print('Location: \n', end='')
+        # print("{:<15} {:<15}".format("location", "value"))
+        # for key in i.stock_at_locations:
+        #     print("{:<15} {:<15}".format(key.name, i.stock_at_locations[key]))
+        # print('\n')
+        #---------------------------------------------------------------
+        print("product list by location")
+        line(1)
+        for i in Location_object:
+            print("--------------")
+            print("|"+"    "+i.name+"    "+"|")
+            print("--------------")
+            print("\nProduct Details:-  \n")
+            for p in p1:
+                if i in p.stock_at_locations:
+                    print(f'{p.name}  -  {p.stock_at_locations[i]}','\n  -------  ')
+            print()
+
