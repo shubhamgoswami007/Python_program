@@ -1,4 +1,4 @@
-from new_program_3 import products,category
+from Exercise_1_3 import products,category
 
 class Location:
     code_l=1200
