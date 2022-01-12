@@ -33,7 +33,8 @@ class products(category):
         products.list_p.append(self)
         products.item += 1
         products.cate = category.getName()
-        products.dict.update({products.item: [self.name, self.code, products.cate, self.price]})
+        products.dict.update(
+            {products.item: [self.name, self.code, products.cate, self.price]})
 
     def display(self):
         print("\nProduct: ", self.name)
@@ -78,38 +79,37 @@ for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], rev
     name, Code, category, Price = value
     print("{:<10} {:<10} {:<10} {:<10}".format(name, Code, category, Price))
 
-print("\nSearch Product with code:-\n---------------------------------")
-def check_code():
+# print("\nSearch Product with code:-\n---------------------------------")
+# def check_code():
 
-    while True:
-        print("\n1)for display list formate.--\n2)for display Dictionary formate.--\n0)To exit from this loop.-- ")
-        a= int(input())
-        if a== 1:
-            print("\nEnter Product code:-\n---------------------------------\n")
-            code = float(input("enter code to search product:- "))
-            temp = 0
-            for i in products.list_p:
-                if i.code == code:
-                    temp=1
-                    i.display()
-                    break
-            if temp == 0:
-                print("wrong number!")
-        if a == 2:
-            print("\nEnter Product with code:-\n---------------------------------\n")
-            code = float(input("enter product code:- "))
-            temp = 0
-            print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
-                                                       "Price\n-------------------------------------------------------"))
-            for key, value in products.dict.items():
-                name, Code, category, Price = value
-                if value[1] == code:
-                    print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
-                    temp = 1
-            if temp == 0:
-                print("product not found")
-        if a==0:
-            break
+#     while True:
+#         print("\n1)for display list formate.--\n2)for display Dictionary formate.--\n0)To exit from this loop.-- ")
+#         a= int(input())
+#         if a== 1:
+#             print("\nEnter Product code:-\n---------------------------------\n")
+#             code = float(input("enter code to search product:- "))
+#             temp = 0
+#             for i in products.list_p:
+#                 if i.code == code:
+#                     temp=1
+#                     i.display()
+#                     break
+#             if temp == 0:
+#                 print("wrong number!")
+#         if a == 2:
+#             print("\nEnter Product with code:-\n---------------------------------\n")
+#             code = float(input("enter product code:- "))
+#             temp = 0
+#             print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
+#                                                        "Price\n-------------------------------------------------------"))
+#             for key, value in products.dict.items():
+#                 name, Code, category, Price = value
+#                 if value[1] == code:
+#                     print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+#                     temp = 1
+#             if temp == 0:
+#                 print("product not found")
+#         if a==0:
+#             break
 
-check_code()
-
+# check_code()

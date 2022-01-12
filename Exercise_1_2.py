@@ -1,5 +1,5 @@
 import pandas as pd
-from tabulate import tabulate
+# from tabulate import tabulate
 from treelib import Node, Tree
 
 
@@ -56,7 +56,8 @@ class products:
         products.item += 1
         category.products.append(self)
         products.cate = category.getName()
-        products.dict.update({products.item: [self.name, self.code, products.cate, self.price]})
+        products.dict.update(
+            {products.item: [self.name, self.code, products.cate, self.price]})
 
     def display(self):
         print("\nProduct: ", self.name)
@@ -89,8 +90,6 @@ if __name__ == "__main__":
     object_of_category = [vehicle, gadget, cloths, game, pen, Women, men, Cars, Scooters,
                           Laptop, PC, Mobile, Xbox, PlayStation, maruti, T_shirt]
 
-
-
     p1 = [
         products("lenovo", Laptop, 50000),
         products("dell", Laptop, 30560),
@@ -112,13 +111,11 @@ if __name__ == "__main__":
         products("VR", PlayStation, 20000)
     ]
 
-
     def line(n):
         if n == 1:
             print("-----------------------------------------")
         else:
             print("-------------------------------------------------------")
-
 
     print("\nList of Categories")
     line(1)
@@ -127,11 +124,13 @@ if __name__ == "__main__":
     print("\n\n")
 
     print("\nProduct Details:- \n")
-    print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category", "Price"))
+    print("{:<15} {:<15} {:<15} {:<15}".format(
+        "name", "Code", "category", "Price"))
     line(2)
     for key, value in products.dict.items():
         name, Code, category, Price = value
-        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+        print("{:<15} {:<15} {:<15} {:<15}".format(
+            name, Code, category, Price))
 
     print("\nProducts details ORDERBY AND GROUPBY")
     line(1)
@@ -154,7 +153,8 @@ if __name__ == "__main__":
 
     for key, value in sorted(products.dict.items(), key=lambda item: item[1][3], reverse=True):
         name, Code, category, Price = value
-        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+        print("{:<15} {:<15} {:<15} {:<15}".format(
+            name, Code, category, Price))
 
     print("\nsorted Product Details ""'low to high'""\n")
     print("{:<15} {:<15} {:<15} {:<15}".format("name", "Code", "category",
@@ -163,11 +163,11 @@ if __name__ == "__main__":
 
     for key, value in sorted(products.dict.items(), key=lambda item: item[1][3]):
         name, Code, category, Price = value
-        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+        print("{:<15} {:<15} {:<15} {:<15}".format(
+            name, Code, category, Price))
 
     print("\nSearch Product Details with it code")
     line(1)
-
 
     def check_code():
 
@@ -197,12 +197,12 @@ if __name__ == "__main__":
                 for key, value in products.dict.items():
                     name, Code, category, Price = value
                     if value[1] == code:
-                        print("{:<15} {:<15} {:<15} {:<15}".format(name, Code, category, Price))
+                        print("{:<15} {:<15} {:<15} {:<15}".format(
+                            name, Code, category, Price))
                         temp = 1
                 if temp == 0:
                     print("product not found")
             if a == 0:
                 break
-
 
     check_code()
