@@ -1,4 +1,5 @@
 from Exercise_1_3 import products,category
+import os.path
 
 class Location:
     code_l=1200
@@ -11,12 +12,13 @@ class Location:
 
 
 class Movement:
-
-    def __init__(self,from_location,to_location,product,quantity):
-        self.from_location=from_location
+    name=''
+    def __init__(self,fm,to_location,product,quantity):
+        self.from_location=fm
         self.to_location=to_location
         self.product=product
         self.quantity=quantity
+
         self.display=''
         try:
             if self.product.stock_at_locations[self.from_location] >= self.quantity:
@@ -38,13 +40,23 @@ class Movement:
             print("no location for that product\n")
 
 
+
+
     @staticmethod
-    def movements_by_product(product):
+    def movements_by_product(product,name):
         flag = 0
+        save_path = 'C:/Users/shubh/Desktop/moument_data/'
         for item in listofm:
+            Movement.name = item.from_location.name
+            completname = os.path.join(save_path,  Movement.name + ".txt")
             if item.product.name == product.name:
                 flag = 1
                 print(item.display)
+                file = open(completname, "a")
+                file.write(name+"\n------------\n")
+                file.writelines(item.display)
+                file.write("\n\n")
+
 
         if flag == 0:
             print("No movements yet.....")
@@ -61,11 +73,11 @@ if __name__ == "__main__":
     device = category("device")
 
     listofprodcut=[
-        products("mobile", device, 12000, {rajkot: 300}),
-        products("laptop", device, 230000, {rajkot: 300}),
-        products("tablet", device, 1000, {jamnagar: 400}),
-        products("television", device, 35000, {jamnagar: 300}),
-        products("smart watch", device, 4000, {rajkot: 200})
+        products("mobile", device, 12000, {rajkot: 100}),
+        products("laptop", device, 230000, {ahmedabad: 100}),
+        products("tablet", device, 1000, {jamnagar: 100}),
+        products("television", device, 35000, {mumbai: 100}),
+        products("smart watch", device, 4000, {rajkot: 100})
     ]
 
 
@@ -77,16 +89,17 @@ if __name__ == "__main__":
         print()
 
     listofm=[
-        Movement(rajkot, ahmedabad, listofprodcut[1], 20),
-        Movement(rajkot, jamnagar, listofprodcut[2], 20),
-        Movement(jamnagar, ahmedabad, listofprodcut[3], 50),
-        Movement(jamnagar, rajkot, listofprodcut[4], 30)
+        Movement(rajkot, ahmedabad, listofprodcut[0], 50),
+        Movement(ahmedabad, jamnagar, listofprodcut[1], 60),
+        Movement(jamnagar, ahmedabad, listofprodcut[2], 50),
+        Movement(mumbai, rajkot, listofprodcut[3], 40),
+        Movement(rajkot, mumbai,listofprodcut[4], 70)
     ]
 
     print("display movement")
     for i in listofprodcut:
         print(i.name)
-        Movement.movements_by_product(i)
+        Movement.movements_by_product(i,i.name)
         print()
     print("\n")
     print("==========")
