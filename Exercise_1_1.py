@@ -1,3 +1,6 @@
+print("hello")
+print("hello")
+print("hello")
 class category:
     code_c = 2890
 
@@ -6,7 +9,7 @@ class category:
         self.code = category.code_c + 15
         category.code_c += 5
         self.no_of_products = 0
-
+	
     def getName(self):
         return self.name
 
